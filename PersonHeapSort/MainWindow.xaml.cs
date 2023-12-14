@@ -32,24 +32,23 @@ namespace PersonHeapSort {
         }
 
         private void AskButtonClick(object sender, RoutedEventArgs e) {
-            dataGrid.ItemsSource = Sort(persons, true);
+            persons = Sort(persons, true);
+            dataGrid.ItemsSource = persons;
+           // CollectionViewSource.GetDefaultView(dataGrid.ItemsSource).Refresh();
         }
 
         private void DeskButtonClick(object sender, RoutedEventArgs e) {
-            dataGrid.ItemsSource = Sort(persons, false);
+            persons = Sort(persons, false);
+            dataGrid.ItemsSource = persons;
+          //  CollectionViewSource.GetDefaultView(dataGrid.ItemsSource).Refresh();
         }
 
-        private Person[] Sort(Person[] array, bool isAsk) {
-
-            IOrderedEnumerable<Person> result = null;
-
+        private Person[] Sort(Person[] persons, bool isAsk) {
             if (isAsk) {
-                result = array.OrderBy(p => p.FirstName);
+                return persons.OrderBy(p => p.FirstName).ToArray();
             } else {
-                result = array.OrderByDescending(p => p.FirstName);
+                return persons.OrderByDescending(p => p.FirstName).ToArray();
             }
-
-            return result.ToArray();
         }
     }
 }
