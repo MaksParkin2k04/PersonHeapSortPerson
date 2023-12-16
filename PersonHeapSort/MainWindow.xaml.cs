@@ -28,6 +28,9 @@ namespace PersonHeapSort {
         public MainWindow() {
             InitializeComponent();
 
+            HeapSort heapSort = new HeapSort();
+            heapSort.Sort(HeapSort.ARRAY);
+
             dataGrid.ItemsSource = persons;
         }
 
