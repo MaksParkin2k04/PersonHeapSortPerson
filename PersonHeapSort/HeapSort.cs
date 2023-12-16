@@ -7,9 +7,24 @@ using System.Threading.Tasks;
 namespace PersonHeapSort {
     public class HeapSort {
 
-        public static int[] ARRAY = new int[] {4, 10, 3, 5, 1};
+        /// <summary>
+        /// Сортирует элементы последовательности в порядке возрастания.
+        /// </summary>
+        /// <param name="array">массив</param>
+        public void OrderBy(Person[] array) {
+            Sort(array);
+        }
 
-        public void Sort(int[] array) {
+        /// <summary>
+        /// Сортирует элементы последовательности в порядке убывания.
+        /// </summary>
+        /// <param name="array">массив</param>
+        public void OrderByDescending(Person[] array) {
+            Sort(array);
+            Array.Reverse(array);
+        }
+
+        private void Sort(Person[] array) {
             int length = array.Length;
 
             // Build heap (rearrange array)
@@ -24,7 +39,7 @@ namespace PersonHeapSort {
             for (int i = length - 1; i > 0; i--) {
                 // Move current root to end
                 // Переместить текущий корень в конец
-                int temp = array[0];
+                Person temp = array[0];
                 array[0] = array[i];
                 array[i] = temp;
 
@@ -36,20 +51,20 @@ namespace PersonHeapSort {
 
         // To heapify a subtree rooted with node i which is an index in arr[]. length is size of heap
         // Чтобы создать кучу поддерева, корнем которого является узел i, который является индексом в array[]. length — размер кучи
-        private void Heapify(int[] array, int length, int i) {
+        private void Heapify(Person[] array, int length, int i) {
             int largest = i; // Initialize largest as root // Инициализировать самый большой как root
             int left = 2 * i + 1; // left = 2 * i + 1
             int right = 2 * i + 2; // right = 2 * i + 2
 
             // If left child is larger than root
             // Если левый дочерний элемент больше корня
-            if (left < length && array[left] > array[largest]) {
+            if (left < length && IfMore(array[left], array[largest])) {
                 largest = left;
             }
 
             // If right child is larger than largest so far
             // Если правый ребенок больше, чем самый крупный на данный момент
-            if (right < length && array[right] > array[largest]) {
+            if (right < length && IfMore(array[right], array[largest])) {
                 largest = right;
             }
 
@@ -57,13 +72,23 @@ namespace PersonHeapSort {
             // If largest is not root
             // Если самый большой не является корнем
             if (largest != i) {
-                int swap = array[i];
+                Person swap = array[i];
                 array[i] = array[largest];
                 array[largest] = swap;
 
                 // Recursively heapify the affected sub-tree
                 // Рекурсивно собрать в кучу затронутое поддерево
                 Heapify(array, length, largest);
+            }
+        }
+
+        private bool IfMore(Person a, Person b) {
+            int result = string.Compare(a.LastName, b.LastName, StringComparison.InvariantCulture);
+
+            if (result != 0) {
+                return result > 0;
+            } else {
+                return string.Compare(a.FirstName, b.FirstName, StringComparison.InvariantCulture) > 0;
             }
         }
     }
